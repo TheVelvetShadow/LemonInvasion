@@ -1,15 +1,25 @@
 [gd_scene format=3 uid="uid://b3nfp5rb7orso"]
 
-[ext_resource type="Script" uid="uid://bpjo7qg5tkyk6" path="res://Scripts/main.gd" id="1_bo1nx"]
+[ext_resource type="Script" uid="uid://bpjo7qg5tkyk6" path="res://Scripts/main.gd" id="1_maingd"]
 [ext_resource type="Script" uid="uid://wmbtq4lkssra" path="res://Scripts/player.gd" id="2_8gbba"]
 [ext_resource type="Texture2D" uid="uid://cvpecjh844o3y" path="res://Assets/ship_2_white_b.png" id="2_bo1nx"]
+[ext_resource type="PackedScene" uid="uid://c02pks3q00gwj" path="res://Scenes/lemon.tscn" id="4_jjvhh"]
 
-[node name="game" type="Node2D" unique_id=1885678982]
-script = ExtResource("1_bo1nx")
+[sub_resource type="Curve2D" id="Curve2D_8gbba"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1138, 12, 0, 0, 0, 0, 1144, 630, 0, 0, 0, 0, 0, 639, 0, 0, 0, 0, -1, 14, 0, 0, 0, 0, 937, 17, 0, 0, 0, 0, 1137, 11)
+}
+point_count = 6
+
+[node name="main" type="Node2D" unique_id=1885678982]
+script = ExtResource("1_maingd")
+lemon_mob = ExtResource("4_jjvhh")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=313362505]
-offset_right = 1172.0
-offset_bottom = 657.0
+offset_left = -6.0
+offset_top = -5.0
+offset_right = 1166.0
+offset_bottom = 652.0
 color = Color(0.12408299, 0.12408296, 0.12408296, 1)
 
 [node name="player" type="Area2D" parent="." unique_id=95857274]
@@ -31,3 +41,15 @@ scale = Vector2(9.999999, 9.999999)
 visible = false
 position = Vector2(0, -22)
 polygon = PackedVector2Array(0, 0, -26, 46, 27, 46)
+
+[node name="SpawnPath" type="Path2D" parent="." unique_id=1418251808]
+curve = SubResource("Curve2D_8gbba")
+
+[node name="SpawnLocation" type="PathFollow2D" parent="SpawnPath" unique_id=1755093025]
+position = Vector2(-0.46419266, 348.87952)
+rotation = -1.5723963
+progress = 2052.186
+
+[node name="LemonSpawnTimer" type="Timer" parent="." unique_id=1334385652]
+
+[connection signal="timeout" from="LemonSpawnTimer" to="." method="_on_lemon_spawn_timer_timeout"]

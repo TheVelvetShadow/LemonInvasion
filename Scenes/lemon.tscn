@@ -1,6 +1,20 @@
 [gd_scene format=3 uid="uid://c02pks3q00gwj"]
 
-[ext_resource type="Texture2D" uid="uid://s1ktvikd2ak4" path="res://Sprites/lemon.svg" id="1_sw3wu"]
+[ext_resource type="Script" uid="uid://cg4shrebffvao" path="res://Scripts/lemon.gd" id="1_0q4uy"]
+[ext_resource type="Texture2D" uid="uid://s1ktvikd2ak4" path="res://Sprites/lemon.svg" id="2_bt37m"]
 
-[node name="Lemon" type="Sprite2D" unique_id=473095927]
-texture = ExtResource("1_sw3wu")
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a2mkx"]
+radius = 233.06
+height = 466.12
+
+[node name="Lemon" type="Area2D" unique_id=815745286]
+scale = Vector2(0.4, 0.4)
+script = ExtResource("1_0q4uy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1204288168]
+position = Vector2(1, 0)
+shape = SubResource("CapsuleShape2D_a2mkx")
+debug_color = Color(0.9999998, 0.9445889, 0.9814667, 0.41960785)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1274068631]
+texture = ExtResource("2_bt37m")

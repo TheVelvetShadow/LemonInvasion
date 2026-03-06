@@ -1,9 +1,10 @@
 extends Sprite2D
 @export var speed = 400
 @export var rotation_speed = 5.0
+var fire_cooldown = 0.0
+@export var fire_rate = 0.15  # seconds between shots
 
 @onready var bullet_prefab = preload("res://Scenes/bullet.tscn")
- 
 
 func _process(delta):
 	# Left stick moves the ship
@@ -20,9 +21,12 @@ func _process(delta):
 		rotation += joy_x * rotation_speed * delta
 
 	# Fires
-	if Input.is_action_just_pressed("player_shoot"):
-		shoot()
-	
+	fire_cooldown -= delta
+	if Input.is_action_pressed("player_shoot"):
+		if fire_cooldown <= 0.0:
+			shoot()
+			fire_cooldown = fire_rate  # reset the timer
+			
 	# Keep ship on screen
 	var bounds = get_viewport_rect()
 	position = position.clamp(bounds.position, bounds.end)
