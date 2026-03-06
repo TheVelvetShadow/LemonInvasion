@@ -7,7 +7,6 @@
 size = Vector2(7, 53)
 
 [node name="Bullet" type="Area2D" unique_id=922116474]
-rotation = 1.5707964
 script = ExtResource("1_oduel")
 metadata/_edit_group_ = true
 
@@ -16,4 +15,5 @@ position = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_xjght")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1899850099]
+rotation = 1.5707964
 texture = ExtResource("1_xjght")

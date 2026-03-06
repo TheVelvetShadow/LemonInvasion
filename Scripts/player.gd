@@ -1,5 +1,4 @@
 extends Sprite2D
-
 @export var speed = 400
 @export var rotation_speed = 5.0
 
@@ -13,7 +12,7 @@ func _process(delta):
 		Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)
 	)
 	if move.length() > 0.1:
-		position += move * speed * delta
+		get_parent().position += move * speed * delta
 
 	# Right stick rotates the ship
 	var joy_x = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
@@ -22,10 +21,14 @@ func _process(delta):
 
 	# Fires
 	if Input.is_action_just_pressed("player_shoot"):
-		var bullet = bullet_prefab.instantiate()
-		bullet.position = position
-		get_parent().add_child(bullet)
-
+		shoot()
+	
 	# Keep ship on screen
 	var bounds = get_viewport_rect()
 	position = position.clamp(bounds.position, bounds.end)
+
+func shoot():
+	var b = bullet_prefab.instantiate()
+	owner.add_child(b)
+	b.global_position = $BulletSpawn.global_position
+	b.rotation = global_rotation - (PI/2)

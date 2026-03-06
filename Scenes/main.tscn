@@ -8,26 +8,26 @@
 script = ExtResource("1_bo1nx")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=313362505]
-offset_top = -2.0
 offset_right = 1172.0
-offset_bottom = 655.0
+offset_bottom = 657.0
 color = Color(0.12408299, 0.12408296, 0.12408296, 1)
 
 [node name="player" type="Area2D" parent="." unique_id=95857274]
-position = Vector2(55, 44)
+position = Vector2(320, 238)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="player" unique_id=1571897061]
-position = Vector2(-0.99999803, 0)
-rotation = 1.5707964
+position = Vector2(-7.6293945e-06, -2.3841858e-07)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_bo1nx")
 script = ExtResource("2_8gbba")
 
+[node name="BulletSpawn" type="Marker2D" parent="player/Sprite2D" unique_id=1463142723]
+position = Vector2(0, -299.99997)
+rotation = -1.5707964
+scale = Vector2(9.999999, 9.999999)
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="player" unique_id=1066983493]
 visible = false
-position = Vector2(5, -5)
+position = Vector2(0, -22)
 polygon = PackedVector2Array(0, 0, -26, 46, 27, 46)
-
-[node name="BulletSpawn" type="Marker2D" parent="player" unique_id=1463142723]
-position = Vector2(22, 0)
