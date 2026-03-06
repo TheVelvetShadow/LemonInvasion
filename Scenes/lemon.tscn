@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c02pks3q00gwj"]
+
+[ext_resource type="Texture2D" uid="uid://s1ktvikd2ak4" path="res://Sprites/lemon.svg" id="1_sw3wu"]
+
+[node name="Lemon" type="Sprite2D" unique_id=473095927]
+texture = ExtResource("1_sw3wu")
