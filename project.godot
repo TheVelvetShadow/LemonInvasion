@@ -50,6 +50,10 @@ player_shoot={
 
 3d/physics_engine="Jolt Physics"
 
+[autoload]
+
+GameManager="*res://Scripts/game_manager.gd"
+
 [rendering]
 
 rendering_device/driver.windows="d3d12"

@@ -4,6 +4,3 @@
 
 [node name="Fruit" type="Node" unique_id=843800003]
 script = ExtResource("1_o20pv")
-rotation_speed = null
-speed = null
-max_hp = null

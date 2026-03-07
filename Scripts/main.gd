@@ -20,3 +20,4 @@ func _on_spawn_timer_timeout() -> void:
 	var direction = spawn_location.rotation + PI / 2
 	direction += randf_range(-PI / 4, PI / 4)
 	lemon.velocity = Vector2.RIGHT.rotated(direction) * lemon.speed
+	GameManager.register_fruit(lemon)

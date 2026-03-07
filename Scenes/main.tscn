@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://wmbtq4lkssra" path="res://Scripts/player.gd" id="2_8gbba"]
 [ext_resource type="Texture2D" uid="uid://cvpecjh844o3y" path="res://Assets/ship_2_white_b.png" id="2_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://c02pks3q00gwj" path="res://Scenes/lemon.tscn" id="4_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://bhu3scn3t0001" path="res://Scenes/hud.tscn" id="5_hud"]
 
 [sub_resource type="Curve2D" id="Curve2D_8gbba"]
 _data = {
@@ -53,5 +54,7 @@ rotation = 3.1405203
 progress = 2052.186
 
 [node name="SpawnTimer" type="Timer" parent="." unique_id=1334385652]
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

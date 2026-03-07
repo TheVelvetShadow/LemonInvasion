@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://ck275207j4hh2"]
+
+[ext_resource type="Texture2D" uid="uid://cmjnjynfoad30" path="res://Assets/circle_05.png" id="1_a801j"]
+[ext_resource type="Texture2D" uid="uid://f46sbtm47gyk" path="res://Assets/explosion.png" id="2_4okmj"]
+
+[node name="Sprite2D" type="Sprite2D" unique_id=10713282]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1476705436]
+
+[node name="Circle05" type="Sprite2D" parent="." unique_id=778696367]
+position = Vector2(0.9999695, -1)
+scale = Vector2(4.7304688, 4.265625)
+texture = ExtResource("1_a801j")
+
+[node name="Explosion" type="Sprite2D" parent="." unique_id=830945976]
+position = Vector2(-10, 31)
+texture = ExtResource("2_4okmj")

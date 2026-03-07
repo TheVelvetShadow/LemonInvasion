@@ -2,9 +2,14 @@ extends Area2D
 
 class_name Fruit
 
+signal hit(points: int)
+signal destroyed(points: int)
+
 @export var rotation_speed = 3.0
 @export var speed = 150.0
 @export var max_hp = 3
+@export var points: int = 10
+@export var hit_points: int = 1
 
 var velocity = Vector2.ZERO
 var hp: int
@@ -29,10 +34,11 @@ func _on_area_entered(area: Area2D) -> void:
 		if hp <= 0:
 			_die()
 		else:
+			hit.emit(hit_points)
 			_flash()
 
 func _die() -> void:
-
+	destroyed.emit(points)
 	queue_free()
 
 func _flash() -> void:
