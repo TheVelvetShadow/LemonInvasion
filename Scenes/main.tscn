@@ -7,9 +7,9 @@
 
 [sub_resource type="Curve2D" id="Curve2D_8gbba"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 1138, 12, 0, 0, 0, 0, 1144, 630, 0, 0, 0, 0, 0, 639, 0, 0, 0, 0, -1, 14, 0, 0, 0, 0, 937, 17, 0, 0, 0, 0, 1137, 11)
+"points": PackedVector2Array(0, 0, 0, 0, 1393.2466, -166.12488, 0, 0, 0, 0, 1389.3823, 729.8751, 0, 0, 0, 0, -203.62653, 731.58344, 0, 0, 0, 0, -211.35489, -177.22879, 0, 0, 0, 0, 1400.0088, -169.54147)
 }
-point_count = 6
+point_count = 5
 
 [node name="main" type="Node2D" unique_id=1885678982]
 script = ExtResource("1_maingd")
@@ -43,13 +43,15 @@ position = Vector2(0, -22)
 polygon = PackedVector2Array(0, 0, -26, 46, 27, 46)
 
 [node name="SpawnPath" type="Path2D" parent="." unique_id=1418251808]
+position = Vector2(-44.2164, 27.492188)
+scale = Vector2(1.0351481, 1.170759)
 curve = SubResource("Curve2D_8gbba")
 
 [node name="SpawnLocation" type="PathFollow2D" parent="SpawnPath" unique_id=1755093025]
-position = Vector2(-0.46419266, 348.87952)
-rotation = -1.5723963
+position = Vector2(233.20813, 731.11505)
+rotation = 3.1405203
 progress = 2052.186
 
-[node name="LemonSpawnTimer" type="Timer" parent="." unique_id=1334385652]
+[node name="SpawnTimer" type="Timer" parent="." unique_id=1334385652]
 
-[connection signal="timeout" from="LemonSpawnTimer" to="." method="_on_lemon_spawn_timer_timeout"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

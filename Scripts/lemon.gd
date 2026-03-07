@@ -1,25 +1,23 @@
-extends Area2D
+extends Fruit
 
 class_name Lemon
 
-@export var lemon_rotation_speed = 3.0
-@export var lemon_speed = 150.0
+func _die() -> void:
+	_spawn_god_rays()
+	super._die()
 
-var velocity = Vector2.ZERO
-
-func _ready() -> void:
-	area_entered.connect(_on_area_entered)
-
-func _process(delta: float) -> void:
-	position += velocity * delta
-	rotation += lemon_rotation_speed * delta
-
-	# Delete when off screen
-	if not get_viewport_rect().grow(200).has_point(position):
-		queue_free()
-
-func _on_area_entered(area: Area2D) -> void:
-	# Hit by a bullet
-	if area.is_in_group("bullets"):
-		area.queue_free()
-		queue_free()
+func _spawn_god_rays() -> void:
+	for i in 10:
+		var ray = Line2D.new()
+		ray.width = 4.0
+		ray.default_color = Color(1, 1, 0.8, 1)
+		var angle = (float(i) / 10) * TAU + randf_range(-0.15, 0.15)
+		var dir = Vector2.RIGHT.rotated(angle)
+		ray.add_point(dir * 20.0)
+		ray.add_point(dir * 20.0)
+		get_parent().add_child(ray)
+		ray.global_position = global_position
+		var tween = ray.create_tween()
+		tween.tween_method(func(p: Vector2): ray.set_point_position(1, p), dir * 20.0, dir * 150.0, 0.35)
+		tween.parallel().tween_property(ray, "modulate:a", 0.0, 0.35)
+		tween.tween_callback(ray.queue_free)

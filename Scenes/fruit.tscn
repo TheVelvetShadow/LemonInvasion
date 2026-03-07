@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dy5sgs3ws63ak"]
+
+[ext_resource type="Script" uid="uid://bblxme557iht6" path="res://Scripts/fruit.gd" id="1_o20pv"]
+
+[node name="Fruit" type="Node" unique_id=843800003]
+script = ExtResource("1_o20pv")
+rotation_speed = null
+speed = null
+max_hp = null
