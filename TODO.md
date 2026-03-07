@@ -179,7 +179,8 @@ func game_over():
 
 ## Polish
 
-- [ ] **Explosion particles** — add a `GPUParticles2D` node to `lemon.tscn`. On death, reparent it to the scene root and call `emitting = true` before freeing the lemon.
+- [x] **Explosion sprite on death** — swap Sprite2D texture to `explosion.png` in `_die()`, stop movement, then `queue_free()` after a short delay.
+- [ ] **Explosion fade out** — after swapping to the explosion texture, tween the sprite's `modulate` alpha from 1 to 0 over ~0.5 s before freeing.
 - [ ] **Screen shake on death** — use a `Tween` to rapidly offset the `Camera2D` position then reset it.
 - [ ] **High score persistence** — use `FileAccess` to read/write a score file:
 ```gdscript

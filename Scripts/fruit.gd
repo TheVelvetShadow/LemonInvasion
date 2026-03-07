@@ -32,22 +32,8 @@ func _on_area_entered(area: Area2D) -> void:
 			_flash()
 
 func _die() -> void:
-	_spawn_ring_effect()
-	queue_free()
 
-func _spawn_ring_effect() -> void:
-	var ring = Line2D.new()
-	ring.width = 6.0
-	ring.default_color = Color.WHITE
-	for i in 33:
-		var angle = (float(i) / 32) * TAU
-		ring.add_point(Vector2(cos(angle), sin(angle)) * 30.0)
-	get_parent().add_child(ring)
-	ring.global_position = global_position
-	var tween = ring.create_tween()
-	tween.tween_property(ring, "scale", Vector2(4, 4), 0.4)
-	tween.parallel().tween_property(ring, "modulate:a", 0.0, 0.4)
-	tween.tween_callback(ring.queue_free)
+	queue_free()
 
 func _flash() -> void:
 	var sprite = $Sprite2D
