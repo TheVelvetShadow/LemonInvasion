@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://diqpy0brjf5mo"]
+
+[ext_resource type="Script" uid="uid://5q3fiaopu2ov" path="res://Scripts/banana.gd" id="1_bkbm4"]
+[ext_resource type="Texture2D" uid="uid://co1218snhdt6f" path="res://Sprites/banana.png" id="2_bkbm4"]
+
+[node name="Banana" type="Area2D" unique_id=815745286]
+script = ExtResource("1_bkbm4")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=311087146]
+position = Vector2(-60, 47)
+polygon = PackedVector2Array(86, -42, 128, -188, 88, -312, 135, -364, 183, -246, 234, -229, 282, -113, 244, 83, 163, 183, 40, 272, -102, 311, -238, 326, -345, 268, -344, 216, -18, 49, 40, 10)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1274068631]
+self_modulate = Color(0.9882353, 0.91764706, 0.16862746, 1)
+position = Vector2(-70, 51)
+texture = ExtResource("2_bkbm4")
