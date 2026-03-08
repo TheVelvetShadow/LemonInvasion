@@ -1,5 +1,15 @@
 # Lemon Invasion — TODO & Tutorial
 
+## Blog Post
+
+`Lemon_Invasion_Blog_Post.md` — update this on significant development milestones.
+
+Examples of things worth logging:
+- New systems or architecture decisions (e.g. splitting, enemy AI, scoring)
+- Bugs that took time to track down and the fix
+- Godot-specific gotchas discovered along the way
+- Refactors that changed the overall structure
+
 Godot port of the Scratch project "Lemonoid". Asteroids-style shooter where the player
 destroys lemons that split into smaller pieces. Assets (sprites, audio) are bundled in
 `Lemonoid Assets (part 1 & 2).sb3` (a ZIP — extract with any zip tool to access files).
@@ -13,6 +23,9 @@ destroys lemons that split into smaller pieces. Assets (sprites, audio) are bund
 - [x] Lemon spawning from screen edges via Path2D + Timer
 - [x] Bullet-lemon collision (both destroyed)
 - [x] Lemon and bullet off-screen cleanup
+- [x] `Fruit` base class (`fruit.gd`) — signals, tier vars, `_on_area_entered` guards, `_die()` / `_play_death_animation()` await pattern, `_flash()` hit feedback
+- [x] Lemon splitting — self-clone approach, 4-tier system (`lemon.gd` extends `Fruit`)
+- [x] Hit flash (overbright tween on non-lethal hits)
 
 ---
 
@@ -40,29 +53,10 @@ var lemon = lemon_mob.instantiate()
 
 ## Gameplay
 
-### Two lemon sizes
-The Scratch project has two enemy costumes: `BIG` and `rock`. The plan is one scene
-with a size parameter rather than two separate scenes.
+### Lemon splitting — self-clone approach ✅ DONE
 
-1. Add `@export var is_big: bool = true` to `lemon.gd`.
-2. In `_ready()`, scale the node: `scale = Vector2(1, 1) if is_big else Vector2(0.5, 0.5)`.
-3. Adjust `lemon_speed` based on size — small lemons should move faster.
-
-### Lemon splitting
-When a BIG lemon is shot it should spawn 2–3 small rock lemons.
-
-1. Add `@export var small_lemon: PackedScene` to `lemon.gd` (assign in Inspector).
-2. In `_on_area_entered`, before `queue_free()`, check `if is_big`:
-```gdscript
-if is_big:
-    for i in 3:
-        var rock = small_lemon.instantiate()
-        get_parent().add_child(rock)
-        rock.position = position
-        rock.is_big = false
-        var angle = randf_range(0, TAU)
-        rock.velocity = Vector2.RIGHT.rotated(angle) * rock.lemon_speed
-```
+Implemented in `fruit.gd` (base) and `lemon.gd` (subclass). See blog Entry 3 for full details.
+4-tier system: scales `[0.4, 0.28, 0.18, 0.11]`, HP `[3, 2, 1, 1]`, 3 splits per death.
 
 ### Player-lemon collision
 `lemon.gd` currently only checks for bullets. Add player detection:
@@ -88,14 +82,11 @@ After dying, the player should briefly flash and be immune to hits.
 3. In the lemon collision check, also guard with `if not area.get("invincible")`.
 
 ### Score system
+`destroyed(points: int)` signal already emitted by `Fruit._die()` with tier-based point values.
+Remaining steps:
 1. Add `var score = 0` to `main.gd`.
-2. Emit a signal from `lemon.gd` when destroyed, carrying a point value:
-```gdscript
-signal destroyed(points)
-# in _on_area_entered:
-destroyed.emit(200 if is_big else 500)
-```
-3. Connect that signal in `main.gd` and add the value to `score`.
+2. Connect `destroyed` from each spawned lemon to `main.gd` and accumulate score.
+3. Update the HUD label on each score change.
 
 ### Difficulty scaling
 In `main.gd _process`, gradually reduce the timer's `wait_time`:

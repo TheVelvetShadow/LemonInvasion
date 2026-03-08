@@ -11,8 +11,12 @@ signal destroyed(points: int)
 @export var points: int = 10
 @export var hit_points: int = 1
 
+var tier: int = 0
+var max_tier: int = 0
 var velocity = Vector2.ZERO
 var hp: int
+var split_amount = 3
+var is_dying: bool = false
 
 func _ready() -> void:
 	hp = max_hp
@@ -28,18 +32,42 @@ func _process(delta: float) -> void:
 
 # Hit by a bullet
 func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("bullets"):
+	if area.is_in_group("bullets") and not area.is_queued_for_deletion() and not is_dying:
 		area.queue_free()
 		hp -= 1
 		if hp <= 0:
+			_split()
 			_die()
 		else:
 			hit.emit(hit_points)
 			_flash()
 
+
+func _split() -> void:
+	if tier >= max_tier:
+		return
+	for i in split_amount :
+		var child = load(scene_file_path).instantiate()
+		child.tier = tier + 1
+		get_parent().add_child(child)
+		child.global_position = global_position
+		var spread = PI / 4
+		var angle = lerp(-spread, spread, float(i))
+		child.velocity = velocity.rotated(angle) * 1.2
+
+
+func _play_death_animation() -> void:
+	pass
+
+
 func _die() -> void:
+	is_dying = true
+	rotation_speed = 0
+	velocity = Vector2.ZERO
+	await _play_death_animation()
 	destroyed.emit(points)
 	queue_free()
+
 
 func _flash() -> void:
 	var sprite = $Sprite2D

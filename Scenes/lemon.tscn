@@ -8,7 +8,6 @@ radius = 233.06
 height = 466.12
 
 [node name="Lemon" type="Area2D" unique_id=815745286]
-scale = Vector2(0.4, 0.4)
 script = ExtResource("1_0q4uy")
 points = 5
 
