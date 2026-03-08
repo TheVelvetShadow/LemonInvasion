@@ -4,6 +4,7 @@ class_name Fruit
 
 signal hit(points: int)
 signal destroyed(points: int)
+signal dying
 
 @export var rotation_speed = 3.0
 @export var speed = 150.0
@@ -62,6 +63,7 @@ func _play_death_animation() -> void:
 
 func _die() -> void:
 	is_dying = true
+	dying.emit()
 	rotation_speed = 0
 	velocity = Vector2.ZERO
 	await _play_death_animation()
