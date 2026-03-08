@@ -26,6 +26,8 @@ destroys lemons that split into smaller pieces. Assets (sprites, audio) are bund
 - [x] `Fruit` base class (`fruit.gd`) — signals, tier vars, `_on_area_entered` guards, `_die()` / `_play_death_animation()` await pattern, `_flash()` hit feedback
 - [x] Lemon splitting — self-clone approach, 4-tier system (`lemon.gd` extends `Fruit`)
 - [x] Hit flash (overbright tween on non-lethal hits)
+- [x] FruitSpawner node — extracted from main.gd, owns Path2D/SpawnTimer, emits `fruit_spawned`
+- [x] Weighted spawn probability — `spawn_weight` export on each fruit scene, cached weighted pick in spawner
 
 ---
 

@@ -367,4 +367,65 @@ The full split chain runs through a single `lemon.tscn` scene cloning itself wit
 
 ---
 
+## Entry 4 — FruitSpawner and Weighted Spawning
+
+### Extracting the spawner
+
+Spawning logic was living in `main.gd` alongside a hardcoded `lemon_mob: PackedScene` export. With more fruit types planned, that needed to move.
+
+`FruitSpawner` is now its own node (child of main) owning the Path2D, SpawnTimer, and all spawning logic. `main.gd` is reduced to wiring:
+
+```gdscript
+# main.gd
+func _ready() -> void:
+    $FruitSpawner.fruit_spawned.connect(_on_fruit_spawned)
+
+func _on_fruit_spawned(fruit: Fruit) -> void:
+    fruit.dying.connect($Camera_shake.apply_shake)
+    GameManager.register_fruit(fruit)
+```
+
+Adding a new fruit type now requires zero code changes — just drag its scene into `FruitSpawner.fruit_scenes` in the Inspector.
+
+### Weighted spawn probability
+
+Equal-probability spawning (`pick_random()`) doesn't give enough control for game balancing. The solution: each fruit scene declares its own `spawn_weight` export, and the spawner reads it.
+
+```gdscript
+# fruit.gd — weight lives on the fruit itself, next to other balance exports
+@export var spawn_weight: float = 1.0
+```
+
+The spawner caches the weights at startup by doing a one-time temp-instantiate of each scene:
+
+```gdscript
+func _ready() -> void:
+    for scene in fruit_scenes:
+        var temp = scene.instantiate()
+        _weights.append(temp.spawn_weight)
+        temp.free()
+```
+
+Then `_pick_scene()` does a weighted roll:
+
+```gdscript
+func _pick_scene() -> PackedScene:
+    var total = 0.0
+    for w in _weights:
+        total += w
+    var roll = randf() * total
+    var cumulative = 0.0
+    for i in fruit_scenes.size():
+        cumulative += _weights[i]
+        if roll < cumulative:
+            return fruit_scenes[i]
+    return fruit_scenes.back()
+```
+
+The algorithm: multiply a 0–1 random by the total weight to get a roll, then walk the cumulative sum until the roll is exceeded. Weights are ratios, not percentages — `[3, 1]` gives 75/25, `[1, 1]` gives 50/50. The fallback `fruit_scenes.back()` guards against floating point rounding where the roll lands exactly on the total.
+
+Keeping `spawn_weight` on the fruit rather than in the spawner means all balancing knobs (speed, HP, points, spawn rate) live in one place per fruit type.
+
+---
+
 *More entries to follow as development continues.*

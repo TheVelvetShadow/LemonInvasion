@@ -11,6 +11,9 @@ signal dying
 @export var max_hp = 3
 @export var points: int = 10
 @export var hit_points: int = 1
+# Relative spawn probability. FruitSpawner reads this at startup to build
+# a weighted pick — e.g. weight 3 vs weight 1 gives a 75/25 split.
+# Weights don't need to sum to 1; only the ratios between them matter.
 @export var spawn_weight: float = 1.0
 
 var tier: int = 0
