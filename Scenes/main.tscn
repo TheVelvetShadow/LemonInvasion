@@ -4,8 +4,9 @@
 [ext_resource type="Script" uid="uid://wmbtq4lkssra" path="res://Scripts/player.gd" id="2_8gbba"]
 [ext_resource type="Texture2D" uid="uid://cvpecjh844o3y" path="res://Assets/ship_2_white_b.png" id="2_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://c02pks3q00gwj" path="res://Scenes/lemon.tscn" id="4_jjvhh"]
-[ext_resource type="PackedScene" uid="uid://bhu3scn3t0001" path="res://Scenes/hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" uid="uid://corqqg7xpf02b" path="res://Scenes/hud.tscn" id="5_hud"]
 [ext_resource type="PackedScene" uid="uid://0bdur25apshn" path="res://Scenes/camera_shake.tscn" id="6_camera"]
+[ext_resource type="Script" path="res://Scripts/fruit_spawner.gd" id="7_spawner"]
 
 [sub_resource type="Curve2D" id="Curve2D_8gbba"]
 _data = {
@@ -15,7 +16,6 @@ point_count = 5
 
 [node name="main" type="Node2D" unique_id=1885678982]
 script = ExtResource("1_maingd")
-fruit_mob = ExtResource("4_jjvhh")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=313362505]
 offset_left = -6.0
@@ -44,20 +44,25 @@ visible = false
 position = Vector2(0, -22)
 polygon = PackedVector2Array(0, 0, -26, 46, 27, 46)
 
-[node name="SpawnPath" type="Path2D" parent="." unique_id=1418251808]
+[node name="FruitSpawner" type="Node2D" parent="." unique_id=2001000001]
+script = ExtResource("7_spawner")
+fruit_scenes = Array[PackedScene]([ExtResource("4_jjvhh")])
+
+[node name="SpawnPath" type="Path2D" parent="FruitSpawner" unique_id=1418251808]
 position = Vector2(-44.2164, 27.492188)
 scale = Vector2(1.0351481, 1.170759)
 curve = SubResource("Curve2D_8gbba")
 
-[node name="SpawnLocation" type="PathFollow2D" parent="SpawnPath" unique_id=1755093025]
+[node name="SpawnLocation" type="PathFollow2D" parent="FruitSpawner/SpawnPath" unique_id=1755093025]
 position = Vector2(233.20813, 731.11505)
 rotation = 3.1405203
 progress = 2052.186
 
-[node name="SpawnTimer" type="Timer" parent="." unique_id=1334385652]
+[node name="SpawnTimer" type="Timer" parent="FruitSpawner" unique_id=1334385652]
 
-[node name="Camera_shake" parent="." instance=ExtResource("6_camera")]
+[node name="HUD" parent="." unique_id=990984843 instance=ExtResource("5_hud")]
 
-[node name="HUD" parent="." instance=ExtResource("5_hud")]
+[node name="Camera_shake" parent="." unique_id=1865520645 instance=ExtResource("6_camera")]
+position = Vector2(578, 327)
 
-[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="FruitSpawner/SpawnTimer" to="FruitSpawner" method="_on_spawn_timer_timeout"]
