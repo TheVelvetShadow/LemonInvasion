@@ -11,6 +11,7 @@ signal dying
 @export var max_hp = 3
 @export var points: int = 10
 @export var hit_points: int = 1
+@export var spawn_weight: float = 1.0
 
 var tier: int = 0
 var max_tier: int = 0
