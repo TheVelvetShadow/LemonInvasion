@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://co1218snhdt6f" path="res://Sprites/banana.png" id="2_bkbm4"]
 
 [node name="Banana" type="Area2D" unique_id=815745286]
+scale = Vector2(0.8, 0.8)
 script = ExtResource("1_bkbm4")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=311087146]

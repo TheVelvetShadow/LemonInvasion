@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bvw6t11wo2mjd"]
+
+[ext_resource type="Script" uid="uid://b86s6ufmhq7pk" path="res://Scripts/strawberry.gd" id="1_3413l"]
+[ext_resource type="Texture2D" uid="uid://wh4hif3afssb" path="res://Sprites/Strawberry.png" id="2_3413l"]
+
+[node name="clasn" type="Area2D" unique_id=815745286]
+scale = Vector2(0.4, 0.4)
+script = ExtResource("1_3413l")
+hit_points = 2
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="." unique_id=21593059]
+position = Vector2(1, 0)
+polygon = PackedVector2Array(202, -107, 206, -108, 213, -73, 200, -7, 155, 109, 98, 194, 54, 241, 18, 261, -31, 261, -90, 209, -164, 97, -211, -40, -195, -147, -132, -200, -160, -221, -91, -256, -18, -245, -17, -294, 10, -296, 17, -246, 81, -252, 158, -221, 125, -201, 204, -107)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1274068631]
+
+[node name="Strawberry" type="Sprite2D" parent="." unique_id=123894536]
+position = Vector2(4, -18.999996)
+scale = Vector2(0.6972656, 0.6972656)
+texture = ExtResource("2_3413l")

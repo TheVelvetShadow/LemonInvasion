@@ -11,6 +11,7 @@ signal dying
 @export var max_hp = 3
 @export var points: int = 10
 @export var hit_points: int = 1
+
 # Relative spawn probability. FruitSpawner reads this at startup to build
 # a weighted pick — e.g. weight 3 vs weight 1 gives a 75/25 split.
 # Weights don't need to sum to 1; only the ratios between them matter.
@@ -23,7 +24,20 @@ var hp: int
 var split_amount = 3
 var is_dying: bool = false
 
+# Subclasses assign these before calling super()
+var fruit_colour := Color.WHITE
+var tier_scale: Array = []
+var tier_speed: Array = []
+var tier_hp: Array = []
+var tier_points: Array = []
+
 func _ready() -> void:
+	if tier_scale.size() > 0:
+		max_tier = tier_scale.size() - 1
+		scale = Vector2.ONE * tier_scale[tier]
+		speed = tier_speed[tier]
+		max_hp = tier_hp[tier]
+		points = tier_points[tier]
 	hp = max_hp
 	area_entered.connect(_on_area_entered)
 
@@ -62,7 +76,13 @@ func _split() -> void:
 
 
 func _play_death_animation() -> void:
-	pass
+	if tier == 0:
+		$Sprite2D.texture = load("res://Assets/explosion.png")
+		$Sprite2D.self_modulate = fruit_colour
+		$Sprite2D.scale = Vector2(2.5, 2.5)
+		var tween = create_tween()
+		tween.tween_property($Sprite2D, "modulate:a", 0.0, 0.2)
+		await tween.finished
 
 
 func _die() -> void:

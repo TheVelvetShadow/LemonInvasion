@@ -428,4 +428,123 @@ Keeping `spawn_weight` on the fruit rather than in the spawner means all balanci
 
 ---
 
+---
+
+## Entry 5 — Planning the Balatro Phase
+
+### The question
+
+After getting the core loop solid — fruit spawning, splitting, weighted picks, tiered scoring —
+the question became: where does the game go next?
+
+The answer was Balatro. Not a clone of it, but inspired by its core feel: a shop between waves,
+cards that stack scoring modifiers, and a run that builds in complexity each level. Asteroids
+as the action layer, Balatro as the progression layer.
+
+Before writing any code, it was worth stopping to plan. This entry documents the thinking.
+
+### What the current architecture already gets right
+
+Looking at the codebase at this point, several patterns are already aligned with where the game
+needs to go:
+
+**Signal-driven decoupling.** `fruit_spawned`, `hit`, `destroyed`, `dying` — nodes don't know
+about each other directly. This matters enormously for the card system, because cards that
+trigger on events (e.g. "on lemon destroyed, add +2 mult") are just new listeners on existing
+signals. The event bus is already there.
+
+**GameManager as autoload.** Global state has a home. Run-level state (cards held, gold, current
+level) will grow naturally here, or into a companion `RunManager`.
+
+**Data-driven via exports.** `spawn_weight`, `points`, tier arrays — configuration lives on the
+data, not in the systems. `CardData` and `LevelData` will follow the same pattern as Godot
+`Resource` files.
+
+**Template method on Fruit.** The `_play_death_animation()` hook means new fruit types are easy
+to add. The card system won't need to know what kind of fruit it's dealing with — just `Fruit`.
+
+### The most important decision: nail the scoring formula first
+
+The entire card system exists to feed a scoring formula. If you build cards before defining that
+formula, the cards have nothing meaningful to modify.
+
+The target formula:
+
+```
+final_score = (base_chips + chip_bonus) × total_mult
+```
+
+`base_chips` is raw points from fruit. Cards add `+chip_bonus` (flat) or `+mult` (additive
+multiplier) or `×mult` (multiplicative multiplier). Right now `GameManager` just does
+`score += points` — that works, but cards that add mult won't feel exciting until the pipeline
+exists. Scoring pipeline comes before the card system.
+
+### Separating three kinds of state
+
+One architectural clarification that came out of planning:
+
+| Layer | What it holds | Lifetime |
+|---|---|---|
+| **Run state** | Cards held, gold, current level, active modifiers | Lasts the whole run |
+| **Level state** | Current score, fruit alive, time elapsed | Resets each level |
+| **Persistent state** | High scores | Survives across runs |
+
+Currently `GameManager` holds score (level state) but will eventually also own run state.
+The boundary between these two needs to be clear before the shop is built — otherwise run
+state (e.g. "I have this card") gets tangled with level state (e.g. "current score is 400").
+
+### Why Resource files for card and level data
+
+Godot's `Resource` class is the right tool for pure data that doesn't need to be a node:
+
+- A `CardData` resource has `card_name`, `description`, `cost`, `effect_type`, `effect_value`
+- A `LevelData` resource has `score_target`, `wave_duration`, optional `fruit_pool`
+- New card = new `.tres` file, zero new code
+- Resources are inspectable and editable in the Godot editor
+- They can be preloaded or loaded at runtime from an array
+
+This is the same instinct already used for per-fruit exports — configuration close to the data,
+not scattered across systems.
+
+### The phased build plan
+
+Rather than design the whole Balatro loop and then implement it all, the plan is to build in
+phases where each phase is independently playable and testable:
+
+**Phase 1 — Level system.** A level has a score target. Hitting it shows a "level complete"
+screen and transitions to a shop placeholder. This is the skeleton everything else attaches to.
+
+**Phase 2 — Scoring pipeline.** Refactor `GameManager` to separate chips and mult. Cards aren't
+built yet — but the formula they'll feed is established and testable with hardcoded values.
+
+**Phase 3 — Card data model.** Define `CardData` as a Resource. Build 2–3 cards (one flat chips
+bonus, one mult bonus, one spawner modifier) to validate the system feels right. No shop yet —
+cards are applied directly to test the effects.
+
+**Phase 4 — Shop scene.** Gold currency earned from fruit. A shop scene between levels presents
+a random selection of cards. Purchase deducts gold, cards enter `RunState`. Now the loop closes.
+
+**Phase 5 — Fire types.** Bullet behaviour variants (piercing, explosive) as a Strategy pattern
+on the player. Cards unlock or upgrade fire types.
+
+**Phase 6 — Polish.** Audio, balance, main menu, game over screen.
+
+The reasoning for this order: each phase depends only on the one before it. You can play and
+balance Phase 1 before writing a single line of card code. You can validate the scoring formula
+in Phase 2 without a shop. When you finally build the shop in Phase 4, the card effects system
+is already proven.
+
+### The CLAUDE.md
+
+As part of this planning step, a `CLAUDE.md` was added to the project root. It gives a working
+context document — scene map, established patterns, vocabulary, scoring formula target, build
+strategy — so that development sessions don't start cold. It's a lightweight architecture
+document that doubles as a prompt-engineering tool.
+
+The vocabulary section is worth highlighting: terms like "chips", "mult", "run", "level", "card",
+"fire type", "gold" are defined explicitly. Naming things consistently before writing code is one
+of the cheapest forms of design work.
+
+---
+
 *More entries to follow as development continues.*

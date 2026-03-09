@@ -7,7 +7,7 @@ signal fruit_spawned(fruit: Fruit)
 # Add fruit scenes via the Inspector. Each fruit's spawn_weight
 # property controls how likely it is to be chosen relative to the others.
 @export var fruit_scenes: Array[PackedScene] = []
-@export var spawn_interval: float = 0.75
+@export var spawn_interval: float = 0.5
 
 # Populated at startup by reading spawn_weight from each fruit scene.
 # Cached so we don't re-instantiate every time a fruit spawns.
@@ -49,6 +49,7 @@ func _on_spawn_timer_timeout() -> void:
 
 	var scene = _pick_scene()
 	var fruit = scene.instantiate()
+	
 	# Fruit is added to main (the parent), not to the spawner,
 	# so it moves freely in world space independently of this node.
 	get_parent().add_child(fruit)
