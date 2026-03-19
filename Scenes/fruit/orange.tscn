@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bjg34p2expkoc"]
+
+[ext_resource type="Script" uid="uid://dg22hm6d8pqi3" path="res://Scripts/orange.gd" id="1_n2n7t"]
+[ext_resource type="Texture2D" uid="uid://i13a50ng5fck" path="res://Sprites/Orange.png" id="2_n2n7t"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_andne"]
+radius = 205.01529
+
+[node name="Orange" type="Area2D" unique_id=815745286]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_n2n7t")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1274068631]
+
+[node name="Orange" type="Sprite2D" parent="." unique_id=123894536]
+position = Vector2(-17.500002, -2.5000002)
+scale = Vector2(0.6972656, 0.6972656)
+texture = ExtResource("2_n2n7t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=46120404]
+scale = Vector2(0.99999976, 0.99999976)
+shape = SubResource("CircleShape2D_andne")
