@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://c0ko5i6krvloy"]
+
+[ext_resource type="Script" uid="uid://cdmtnpck5ibvy" path="res://Scripts/cherry.gd" id="1_evmav"]
+[ext_resource type="Texture2D" uid="uid://b05o6numhbp8p" path="res://Sprites/Transparent Cherries.png" id="2_jors4"]
+
+[node name="Cherry" type="Area2D" unique_id=815745286]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_evmav")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1274068631]
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="." unique_id=891289907]
+position = Vector2(-122, 94)
+scale = Vector2(0.99999976, 0.99999976)
+polygon = PackedVector2Array(16.000008, 2, 60.000015, -2, 100.00002, -28.000008, 120.00003, -70.000015, 132.00003, -34.000008, 168.00005, -6, 224.00006, 6, 284.00006, -8, 320.00006, -56.000015, 338.00006, -118.00003, 288.00006, -196.00005, 206.00006, -218.00006, 148.00003, -326.0001, 220.00006, -356.0001, 174.00005, -386.0001, 110.00003, -366.0001, 64.000015, -392.0001, 60.000015, -378.0001, 88.00002, -354.0001, 84.00002, -292.00006, 48.000015, -216.00006, -10, -218.00006, -60.000015, -194.00005, -86.000015, -148.00003, -96.000015, -102.00002, -88.000015, -56.000015, -46.000015, -12, -2, 4, 2, 0, 2, 0, 6, 4)
+
+[node name="Cherries" type="Sprite2D" parent="." unique_id=17594581]
+position = Vector2(7.6293945e-06, -104)
+scale = Vector2(0.6381295, 0.63812953)
+texture = ExtResource("2_jors4")

@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://diqpy0brjf5mo" path="res://Scenes/fruit/banana.tscn" id="8_banana"]
 [ext_resource type="PackedScene" uid="uid://bjg34p2expkoc" path="res://Scenes/fruit/orange.tscn" id="8_hptm8"]
 [ext_resource type="PackedScene" uid="uid://b3ixa2nh2c55s" path="res://Scenes/fruit/plum.tscn" id="9_d1ilt"]
+[ext_resource type="PackedScene" uid="uid://c0ko5i6krvloy" path="res://Scenes/fruit/cherry.tscn" id="10_6iyac"]
 
 [sub_resource type="Curve2D" id="Curve2D_8gbba"]
 _data = {
@@ -50,7 +51,7 @@ polygon = PackedVector2Array(0, 0, -26, 46, 27, 46)
 
 [node name="FruitSpawner" type="Node2D" parent="." unique_id=2001000001]
 script = ExtResource("7_spawner")
-fruit_scenes = Array[PackedScene]([ExtResource("4_jjvhh"), ExtResource("8_banana"), ExtResource("7_ynf5e"), ExtResource("8_hptm8"), ExtResource("9_d1ilt")])
+fruit_scenes = Array[PackedScene]([ExtResource("4_jjvhh"), ExtResource("8_banana"), ExtResource("7_ynf5e"), ExtResource("8_hptm8"), ExtResource("9_d1ilt"), ExtResource("10_6iyac")])
 
 [node name="SpawnPath" type="Path2D" parent="FruitSpawner" unique_id=1418251808]
 position = Vector2(-44.2164, 27.492188)
